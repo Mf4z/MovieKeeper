@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">MovieKeeper</string>
     <string name="title_activity_movie_list">MovieListActivity</string>
+    <string name="edit_movie">Edit Movie</string>
 </resources>

@@ -1,6 +1,9 @@
 package com.mf4z.moviekeeper;
 
-public final class MovieInfo {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public final class MovieInfo implements Parcelable {
     private GenreInfo mGenre;
     private String mTitle;
     private String mText;
@@ -9,6 +12,13 @@ public final class MovieInfo {
         mGenre = genre;
         mTitle = title;
         mText = text;
+    }
+
+    private MovieInfo(Parcel parcel) {
+
+        mGenre = parcel.readParcelable(GenreInfo.class.getClassLoader());
+        mTitle = parcel.readString();
+        mText = parcel.readString();
     }
 
     public GenreInfo getGenre() {
@@ -59,4 +69,29 @@ public final class MovieInfo {
         return getCompareKey();
     }
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+
+        parcel.writeParcelable(mGenre,0);
+        parcel.writeString(mTitle);
+        parcel.writeString(mText);
+    }
+
+
+    public static final Parcelable.Creator<MovieInfo> CREATOR = new Creator<MovieInfo>() {
+        @Override
+        public MovieInfo createFromParcel(Parcel parcel) {
+            return new MovieInfo(parcel);
+        }
+
+        @Override
+        public MovieInfo[] newArray(int size) {
+            return new MovieInfo[size];
+        }
+    };
 }

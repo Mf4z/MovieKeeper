@@ -1,5 +1,6 @@
 package com.mf4z.moviekeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
@@ -52,6 +54,17 @@ public class MovieListActivity extends AppCompatActivity {
         //Set adapter to ListView
         listMovies.setAdapter(adapterMovies);
 
+
+        //Set a click even to the ListView item
+        listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
+                startActivity(intent);
+
+            }
+        } );
     }
 
 }
