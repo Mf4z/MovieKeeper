@@ -7,13 +7,13 @@ public class DataManager {
     private static DataManager ourInstance = null;
 
     private List<GenreInfo> mGenre = new ArrayList<>();
-    private List<MovieInfo> mNotes = new ArrayList<>();
+    private List<MovieInfo> mMovies = new ArrayList<>();
 
     public static DataManager getInstance() {
         if(ourInstance == null) {
             ourInstance = new DataManager();
             ourInstance.initializeGenre();
-            ourInstance.initializeExampleNotes();
+            ourInstance.initializeExampleMovies();
         }
         return ourInstance;
     }
@@ -26,19 +26,19 @@ public class DataManager {
         return "jimw@jwhh.com";
     }
 
-    public List<MovieInfo> getNotes() {
-        return mNotes;
+    public List<MovieInfo> getMovies() {
+        return mMovies;
     }
 
     public int createNewNote() {
         MovieInfo note = new MovieInfo(null, null, null);
-        mNotes.add(note);
-        return mNotes.size() - 1;
+        mMovies.add(note);
+        return mMovies.size() - 1;
     }
 
     public int findNote(MovieInfo note) {
-        for(int index = 0; index < mNotes.size(); index++) {
-            if(note.equals(mNotes.get(index)))
+        for(int index = 0; index < mMovies.size(); index++) {
+            if(note.equals(mMovies.get(index)))
                 return index;
         }
 
@@ -46,7 +46,7 @@ public class DataManager {
     }
 
     public void removeNote(int index) {
-        mNotes.remove(index);
+        mMovies.remove(index);
     }
 
     public List<GenreInfo> getGenre() {
@@ -63,7 +63,7 @@ public class DataManager {
 
     public List<MovieInfo> getNotes(GenreInfo course) {
         ArrayList<MovieInfo> notes = new ArrayList<>();
-        for(MovieInfo note:mNotes) {
+        for(MovieInfo note: mMovies) {
             if(course.equals(note.getGenre()))
                 notes.add(note);
         }
@@ -72,7 +72,7 @@ public class DataManager {
 
     public int getNoteCount(GenreInfo course) {
         int count = 0;
-        for(MovieInfo note:mNotes) {
+        for(MovieInfo note: mMovies) {
             if(course.equals(note.getGenre()))
                 count++;
         }
@@ -91,24 +91,24 @@ public class DataManager {
         mGenre.add(initializeCourse4());
     }
 
-    public void initializeExampleNotes() {
+    public void initializeExampleMovies() {
         final DataManager dm = getInstance();
 
         GenreInfo course = dm.getCourse("android_intents");
         course.getModule("android_intents_m01").setComplete(true);
         course.getModule("android_intents_m02").setComplete(true);
         course.getModule("android_intents_m03").setComplete(true);
-        mNotes.add(new MovieInfo(course, "Dynamic intent resolution",
+        mMovies.add(new MovieInfo(course, "Dynamic intent resolution",
                 "Wow, intents allow components to be resolved at runtime"));
-        mNotes.add(new MovieInfo(course, "Delegating intents",
+        mMovies.add(new MovieInfo(course, "Delegating intents",
                 "PendingIntents are powerful; they delegate much more than just a component invocation"));
 
         course = dm.getCourse("android_async");
         course.getModule("android_async_m01").setComplete(true);
         course.getModule("android_async_m02").setComplete(true);
-        mNotes.add(new MovieInfo(course, "Service default threads",
+        mMovies.add(new MovieInfo(course, "Service default threads",
                 "Did you know that by default an Android Service will tie up the UI thread?"));
-        mNotes.add(new MovieInfo(course, "Long running operations",
+        mMovies.add(new MovieInfo(course, "Long running operations",
                 "Foreground Services can be tied to a notification icon"));
 
         course = dm.getCourse("java_lang");
@@ -119,18 +119,18 @@ public class DataManager {
         course.getModule("java_lang_m05").setComplete(true);
         course.getModule("java_lang_m06").setComplete(true);
         course.getModule("java_lang_m07").setComplete(true);
-        mNotes.add(new MovieInfo(course, "Parameters",
+        mMovies.add(new MovieInfo(course, "Parameters",
                 "Leverage variable-length parameter lists"));
-        mNotes.add(new MovieInfo(course, "Anonymous classes",
+        mMovies.add(new MovieInfo(course, "Anonymous classes",
                 "Anonymous classes simplify implementing one-use types"));
 
         course = dm.getCourse("java_core");
         course.getModule("java_core_m01").setComplete(true);
         course.getModule("java_core_m02").setComplete(true);
         course.getModule("java_core_m03").setComplete(true);
-        mNotes.add(new MovieInfo(course, "Compiler options",
+        mMovies.add(new MovieInfo(course, "Compiler options",
                 "The -jar option isn't compatible with with the -cp option"));
-        mNotes.add(new MovieInfo(course, "Serialization",
+        mMovies.add(new MovieInfo(course, "Serialization",
                 "Remember to include SerialVersionUID to assure version compatibility"));
     }
 
