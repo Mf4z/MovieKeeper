@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String MOVIE_INFO = "com.mf4z.moviekeeper.MOVIE_INFO"; //Key value pair to identify passed info via intent extra
     private MovieInfo mMovie;
+    private boolean mIsNewMovie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
         EditText textMovieTitle = (EditText) findViewById(R.id.editText_movie);
         EditText textMovieDesc  = (EditText) findViewById(R.id.editText_description);
 
+        if(!mIsNewMovie){   //Display if note is existing note
         //Method to display Movies
         displayMovies(spinnerGenre,textMovieTitle,textMovieDesc);
+        }
     }
 
     private void displayMovies(Spinner spinnerGenre, EditText textMovieTitle, EditText textMovieDesc) {
@@ -57,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent(); //R eference to the intent
         //Get the data passed via the intent
         mMovie = intent .getParcelableExtra(MOVIE_INFO);
+
+        //Check if it's a new note or not
+        mIsNewMovie = mMovie == null;
 
     }
 }
