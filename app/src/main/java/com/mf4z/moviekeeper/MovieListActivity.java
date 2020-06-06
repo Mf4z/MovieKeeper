@@ -43,7 +43,7 @@ public class MovieListActivity extends AppCompatActivity {
     private void initializeDisplayContent() {
 
 
-        ListView listMovies = (ListView) findViewById(R.id.list_movies);
+        final ListView listMovies = (ListView) findViewById(R.id.list_movies);    //Marked as final so it can be referenced in setOnItemClickListener
 
         //List of Movies
         List<MovieInfo> movies = DataManager.getInstance().getMovies();
@@ -61,6 +61,11 @@ public class MovieListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
+
+                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
+
+                //Use intent extra to pass data to MainActivity
+                intent.putExtra(MainActivity.MOVIE_INFO,movie);
                 startActivity(intent);
 
             }
