@@ -1,6 +1,5 @@
 package com.mf4z.moviekeeper;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -24,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText mTextMovieDesc;
     private Spinner mSpinnerGenre;
     private int mMoviePosition;
+    private boolean mIsCancelling;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_send_mail:
                 sendEmail();
                 return true;
+
+            case R.id.action_cancel:
+                mIsCancelling = true; //Check if user wants to cancel
+                finish(); //Used when a user wants to end an activity and return to previous activity
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -78,9 +83,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
 
-        //Saves the movies when back is pressed and onPause is called
-        saveMovies();
+        if (mIsCancelling){ //If canceling is true remove new movie
 
+            if (mIsNewMovie) //Check if it is a new movie, if true remove.
+                DataManager.getInstance().removeMovie(mMoviePosition); //removing new movie
+        }
+        else { //Save existing movie
+            //Saves the movies when back is pressed and onPause is called
+            saveMovies();
+        }
     }
 
     private void saveMovies() {

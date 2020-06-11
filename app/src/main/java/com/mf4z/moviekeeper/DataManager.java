@@ -45,7 +45,7 @@ public class DataManager {
         return -1;
     }
 
-    public void removeNote(int index) {
+    public void removeMovie(int index) {
         mMovies.remove(index);
     }
 

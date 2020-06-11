@@ -3,4 +3,5 @@
     <string name="title_activity_movie_list">MovieListActivity</string>
     <string name="edit_movie">Edit Movie</string>
     <string name="send_as_mail">Send as mail</string>
+    <string name="cancel">Cancel</string>
 </resources>
