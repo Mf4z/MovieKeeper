@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,7 +13,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
@@ -61,10 +59,10 @@ public class MovieListActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
 
-                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
+//                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
 
                 //Use intent extra to pass data to MainActivity
-                intent.putExtra(MainActivity.MOVIE_INFO,movie);
+                intent.putExtra(MainActivity.MOVIE_POSITION,position);
                 startActivity(intent);
 
             }

@@ -12,7 +12,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static final String MOVIE_INFO = "com.mf4z.moviekeeper.MOVIE_INFO"; //Key value pair to identify passed info via intent extra
+    public static final String MOVIE_POSITION = "com.mf4z.moviekeeper.MOVIE_POSITION"; //Key value pair to identify passed info via intent extra
+    public static final int POSITION_NOT_SET = -1;
     private MovieInfo mMovie;
     private boolean mIsNewMovie;
 
@@ -57,12 +58,17 @@ public class MainActivity extends AppCompatActivity {
 
     private void readDisplayStateValues() {
 
-        Intent intent = getIntent(); //R eference to the intent
+        Intent intent = getIntent(); //Reference to the intent
         //Get the data passed via the intent
-        mMovie = intent .getParcelableExtra(MOVIE_INFO);
+        int position  = intent .getIntExtra(MOVIE_POSITION, POSITION_NOT_SET);
 
         //Check if it's a new note or not
-        mIsNewMovie = mMovie == null;
+        mIsNewMovie = position == POSITION_NOT_SET;
+        if (!mIsNewMovie){
 
+            //Get Movie passed by it's position
+            mMovie = DataManager.getInstance().getMovies().get(position);
+
+        }
     }
 }
