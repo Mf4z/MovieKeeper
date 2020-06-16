@@ -49,14 +49,14 @@ public class DataManager {
         mMovies.remove(index);
     }
 
-    public List<GenreInfo> getGenre() {
+    public List<GenreInfo> getGenres() {
         return mGenre;
     }
 
-    public GenreInfo getCourse(String id) {
-        for (GenreInfo course : mGenre) {
-            if (id.equals(course.getGenreId()))
-                return course;
+    public GenreInfo getGenre(String id) {
+        for (GenreInfo genre : mGenre) {
+            if (id.equals(genre.getGenreId()))
+                return genre;
         }
         return null;
     }
@@ -94,7 +94,7 @@ public class DataManager {
     public void initializeExampleMovies() {
         final DataManager dm = getInstance();
 
-        GenreInfo course = dm.getCourse("android_intents");
+        GenreInfo course = dm.getGenre("android_intents");
         course.getModule("android_intents_m01").setComplete(true);
         course.getModule("android_intents_m02").setComplete(true);
         course.getModule("android_intents_m03").setComplete(true);
@@ -103,7 +103,7 @@ public class DataManager {
         mMovies.add(new MovieInfo(course, "Delegating intents",
                 "PendingIntents are powerful; they delegate much more than just a component invocation"));
 
-        course = dm.getCourse("android_async");
+        course = dm.getGenre("android_async");
         course.getModule("android_async_m01").setComplete(true);
         course.getModule("android_async_m02").setComplete(true);
         mMovies.add(new MovieInfo(course, "Service default threads",
@@ -111,7 +111,7 @@ public class DataManager {
         mMovies.add(new MovieInfo(course, "Long running operations",
                 "Foreground Services can be tied to a notification icon"));
 
-        course = dm.getCourse("java_lang");
+        course = dm.getGenre("java_lang");
         course.getModule("java_lang_m01").setComplete(true);
         course.getModule("java_lang_m02").setComplete(true);
         course.getModule("java_lang_m03").setComplete(true);
@@ -124,7 +124,7 @@ public class DataManager {
         mMovies.add(new MovieInfo(course, "Anonymous classes",
                 "Anonymous classes simplify implementing one-use types"));
 
-        course = dm.getCourse("java_core");
+        course = dm.getGenre("java_core");
         course.getModule("java_core_m01").setComplete(true);
         course.getModule("java_core_m02").setComplete(true);
         course.getModule("java_core_m03").setComplete(true);

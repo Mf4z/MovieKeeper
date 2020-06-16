@@ -24,6 +24,9 @@ public class MainActivity extends AppCompatActivity {
     private Spinner mSpinnerGenre;
     private int mMoviePosition;
     private boolean mIsCancelling;
+    private String mOriginalMovieGenreId;
+    private String mOriginalMovieTitle;
+    private String mOriginalMovieText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mSpinnerGenre = (Spinner) findViewById(R.id.spinner_genre);
 
         //List of Genre
-        List<GenreInfo> genre = DataManager.getInstance().getGenre();
+        List<GenreInfo> genre = DataManager.getInstance().getGenres();
 
         //Array Adapter to handle populating the spinner
         ArrayAdapter<GenreInfo> adapterGenre = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, genre);
@@ -43,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         //Read info passed between the activity via intent extra
         readDisplayStateValues();
 
+        //Saves original movie values
+        saveOriginalMovieValues();
+
 
         mTextMovieTitle = (EditText) findViewById(R.id.editText_movie);
         mTextMovieDesc = (EditText) findViewById(R.id.editText_description);
@@ -51,6 +57,15 @@ public class MainActivity extends AppCompatActivity {
             //Method to display Movies
             displayMovies(mSpinnerGenre, mTextMovieTitle, mTextMovieDesc);
         }
+    }
+
+    private void saveOriginalMovieValues() {
+        if (mIsNewMovie)
+            return;
+
+        mOriginalMovieGenreId = mMovie.getGenre().getGenreId();
+        mOriginalMovieTitle = mMovie.getTitle();
+        mOriginalMovieText = mMovie.getText();
     }
 
 
@@ -87,11 +102,22 @@ public class MainActivity extends AppCompatActivity {
 
             if (mIsNewMovie) //Check if it is a new movie, if true remove.
                 DataManager.getInstance().removeMovie(mMoviePosition); //removing new movie
+            else {
+                //Save previous movie  values
+                savePreviousMovieValues();
+            }
         }
         else { //Save existing movie
             //Saves the movies when back is pressed and onPause is called
             saveMovies();
         }
+    }
+
+    private void savePreviousMovieValues() {
+        GenreInfo genreInfo = DataManager.getInstance().getGenre(mOriginalMovieGenreId);
+        mMovie.setGenre(genreInfo);
+        mMovie.setTitle(mOriginalMovieTitle);
+        mMovie.setText(mOriginalMovieText);
     }
 
     private void saveMovies() {
@@ -117,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     private void displayMovies(Spinner spinnerGenre, EditText textMovieTitle, EditText textMovieDesc) {
 
         //List  of genres
-        List<GenreInfo> genres = DataManager.getInstance().getGenre();
+        List<GenreInfo> genres = DataManager.getInstance().getGenres();
         int genreIndex = genres.indexOf(mMovie.getGenre());
 
         spinnerGenre.setSelection(genreIndex);
