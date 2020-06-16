@@ -17,6 +17,8 @@ import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
 
+    private ArrayAdapter<MovieInfo> mAdapterMovies;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,6 +39,13 @@ public class MovieListActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAdapterMovies.notifyDataSetChanged(); //Notifies the adapter of new data added to accommodate it
+    }
+
     private void initializeDisplayContent() {
 
 
@@ -46,10 +55,10 @@ public class MovieListActivity extends AppCompatActivity {
         List<MovieInfo> movies = DataManager.getInstance().getMovies();
 
         //Adapter to load and handle Movies for ListView
-        ArrayAdapter<MovieInfo> adapterMovies = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,movies);
+        mAdapterMovies = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,movies);
 
         //Set adapter to ListView
-        listMovies.setAdapter(adapterMovies);
+        listMovies.setAdapter(mAdapterMovies);
 
 
         //Set a click even to the ListView item
