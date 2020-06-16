@@ -37,13 +37,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //Creating instance of view model provider to manage ViewModel class
+        //Creating instance of view model provider to manage ViewModel class. Useful in handling configuration change
+        // (screen rotation,so data is not lost after activity is destroyed)
         ViewModelProvider viewModelProvider = new ViewModelProvider(getViewModelStore(),
                 ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())); //Boiler plate code
 
         //Assign view model
         mViewModel = viewModelProvider.get(MovieActivityViewModel.class); //gives us back the reference to our view model
 
+        //Check if savedInstanceState is null to restore state
+        if (mViewModel.mIsnewlyCreated && savedInstanceState != null)
+            mViewModel.restoreState(savedInstanceState);
+        //Make newly created false
+        mViewModel.mIsnewlyCreated = false;
 
         mSpinnerGenre = (Spinner) findViewById(R.id.spinner_genre);
 
@@ -123,6 +129,13 @@ public class MainActivity extends AppCompatActivity {
             //Saves the movies when back is pressed and onPause is called
             saveMovies();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (outState != null)
+            mViewModel.saveState(outState);
     }
 
     private void savePreviousMovieValues() {
