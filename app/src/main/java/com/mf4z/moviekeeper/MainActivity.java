@@ -1,6 +1,7 @@
 package com.mf4z.moviekeeper;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,14 +25,25 @@ public class MainActivity extends AppCompatActivity {
     private Spinner mSpinnerGenre;
     private int mMoviePosition;
     private boolean mIsCancelling;
-    private String mOriginalMovieGenreId;
+    private MovieActivityViewModel mViewModel;
+
+    //States that cannot be derived from intent, to use Instance State to get is recommended
+    /*private String mOriginalMovieGenreId;
     private String mOriginalMovieTitle;
-    private String mOriginalMovieText;
+    private String mOriginalMovieText;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Creating instance of view model provider to manage ViewModel class
+        ViewModelProvider viewModelProvider = new ViewModelProvider(getViewModelStore(),
+                ViewModelProvider.AndroidViewModelFactory.getInstance(getApplication())); //Boiler plate code
+
+        //Assign view model
+        mViewModel = viewModelProvider.get(MovieActivityViewModel.class); //gives us back the reference to our view model
+
 
         mSpinnerGenre = (Spinner) findViewById(R.id.spinner_genre);
 
@@ -63,9 +75,9 @@ public class MainActivity extends AppCompatActivity {
         if (mIsNewMovie)
             return;
 
-        mOriginalMovieGenreId = mMovie.getGenre().getGenreId();
-        mOriginalMovieTitle = mMovie.getTitle();
-        mOriginalMovieText = mMovie.getText();
+        mViewModel.mOriginalMovieGenreId = mMovie.getGenre().getGenreId();
+        mViewModel.mOriginalMovieTitle = mMovie.getTitle();
+        mViewModel.mOriginalMovieText = mMovie.getText();
     }
 
 
@@ -114,10 +126,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void savePreviousMovieValues() {
-        GenreInfo genreInfo = DataManager.getInstance().getGenre(mOriginalMovieGenreId);
+        GenreInfo genreInfo = DataManager.getInstance().getGenre(mViewModel.mOriginalMovieGenreId);
         mMovie.setGenre(genreInfo);
-        mMovie.setTitle(mOriginalMovieTitle);
-        mMovie.setText(mOriginalMovieText);
+        mMovie.setTitle(mViewModel.mOriginalMovieTitle);
+        mMovie.setText(mViewModel.mOriginalMovieText);
     }
 
     private void saveMovies() {
