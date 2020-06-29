@@ -30,7 +30,7 @@ public class DataManager {
         return mMovies;
     }
 
-    public int createNewNote() {
+    public int createNewMovie() {
         MovieInfo note = new MovieInfo(null, null, null);
         mMovies.add(note);
         return mMovies.size() - 1;
@@ -70,7 +70,7 @@ public class DataManager {
         return notes;
     }
 
-    public int getNoteCount(GenreInfo course) {
+    public int getMovieCount(GenreInfo course) {
         int count = 0;
         for(MovieInfo note: mMovies) {
             if(course.equals(note.getGenre()))

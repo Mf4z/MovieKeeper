@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -16,6 +17,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String TAG = getClass().getSimpleName();
     public static final String MOVIE_POSITION = "com.mf4z.moviekeeper.MOVIE_POSITION"; //Key value pair to identify passed info via intent extra
     public static final int POSITION_NOT_SET = -1;
     private MovieInfo mMovie;
@@ -75,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
             //Method to display Movies
             displayMovies(mSpinnerGenre, mTextMovieTitle, mTextMovieDesc);
         }
+
+        Log.d(TAG,"onCreate");
     }
 
     private void saveOriginalMovieValues() {
@@ -118,6 +122,8 @@ public class MainActivity extends AppCompatActivity {
 
         if (mIsCancelling){ //If canceling is true remove new movie
 
+            Log.i(TAG,"Canceling movie at position: "+mMoviePosition);
+
             if (mIsNewMovie) //Check if it is a new movie, if true remove.
                 DataManager.getInstance().removeMovie(mMoviePosition); //removing new movie
             else {
@@ -129,6 +135,8 @@ public class MainActivity extends AppCompatActivity {
             //Saves the movies when back is pressed and onPause is called
             saveMovies();
         }
+
+        Log.d(TAG,"onPause ");
     }
 
     @Override
@@ -155,7 +163,8 @@ public class MainActivity extends AppCompatActivity {
 
         String genre = mSpinnerGenre.getSelectedItem().toString();
         String subject = mTextMovieTitle.getText().toString();
-        String text = "Check out what I'm watching, " + genre + " : \"" + subject + "\" \n" + mTextMovieDesc.getText().toString();
+        String text = "Check out what I'm watching, " + genre + " : \"" + subject + "\" \n"
+                + mTextMovieDesc.getText().toString();
 
         Intent intent = new Intent(Intent.ACTION_SEND);
         intent.setType("message/rfc2822"); //mime type for email
@@ -180,23 +189,24 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent(); //Reference to the intent
         //Get the data passed via the intent
-        int position = intent.getIntExtra(MOVIE_POSITION, POSITION_NOT_SET);
+        mMoviePosition = intent.getIntExtra(MOVIE_POSITION, POSITION_NOT_SET);
 
         //Check if it's a new note or not
-        mIsNewMovie = position == POSITION_NOT_SET;
+        mIsNewMovie = mMoviePosition == POSITION_NOT_SET;
         if (mIsNewMovie) { //If it's new movie, create a movie
             //Create Movie
             createMovie();
         }
-        else {
-            //Get Movie passed by it's position
-            mMovie = DataManager.getInstance().getMovies().get(position);
-        }
+
+        Log.i(TAG,"mMoveiPosition: "+mMoviePosition);
+        //Get Movie passed by it's position
+        mMovie = DataManager.getInstance().getMovies().get(mMoviePosition);
+
     }
 
     private void createMovie() {
         DataManager dm = DataManager.getInstance();
-        mMoviePosition = dm.createNewNote();
-        mMovie = dm.getMovies().get(mMoviePosition);
+        mMoviePosition = dm.createNewMovie();
+       // mMovie = dm.getMovies().get(mMoviePosition);
     }
 }
