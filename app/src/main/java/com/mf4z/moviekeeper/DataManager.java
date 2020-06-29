@@ -189,6 +189,15 @@ public class DataManager {
 
         return new GenreInfo("java_core", "Java Fundamentals: The Core Platform", modules);
     }
+
+    public int createNewMovie(GenreInfo genre, String movieTitle, String movieText) {
+        int index = createNewMovie();
+        MovieInfo movie = getMovies().get(index);
+        movie.setGenre(genre);
+        movie.setTitle(movieTitle);
+        movie.setText(movieText);
+        return index;
+    }
     //endregion
 
 }

@@ -70,4 +70,28 @@ public class DataManagerTest {
         int foundIndex2 = sDataManager.findMovie(newMovie2);
         assertEquals(movieIndex2, foundIndex2);
     }
+
+    @Test
+    public void createNewMovieOneStepCreation(){
+        final  GenreInfo genre = sDataManager.getGenre("android_async");
+        final  String movieTitle = "Test Unit Title";
+        final  String movieText = "Test Text Movie";
+
+        int movieIndex = sDataManager.createNewMovie();
+
+        MovieInfo newMovie = sDataManager.getMovies().get(movieIndex);
+        newMovie.setGenre(genre);
+        newMovie.setTitle(movieTitle);
+        newMovie.setText(movieText);
+
+        //Test MovieInfo to capare with above newMovie info to check functionality
+        MovieInfo compareMovie = sDataManager.getMovies().get(movieIndex);
+
+        //using assertEquals method to check for equality of values
+        assertEquals(genre,compareMovie.getGenre());
+        assertEquals(movieTitle,compareMovie.getTitle());
+        assertEquals(movieText,compareMovie.getText());
+
+
+    }
 }
