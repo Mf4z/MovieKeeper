@@ -36,9 +36,9 @@ public class DataManager {
         return mMovies.size() - 1;
     }
 
-    public int findNote(MovieInfo note) {
+    public int findMovie(MovieInfo movie) {
         for(int index = 0; index < mMovies.size(); index++) {
-            if(note.equals(mMovies.get(index)))
+            if(movie.equals(mMovies.get(index)))
                 return index;
         }
 
