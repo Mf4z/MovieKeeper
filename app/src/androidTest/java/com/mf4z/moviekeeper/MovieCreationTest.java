@@ -18,7 +18,7 @@ import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.matcher.ViewMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static androidx.test.espresso.Espresso.pressBack;
-
+import static androidx.test.espresso.assertion.ViewAssertions.*;
 
 @RunWith(AndroidJUnit4.class)
 public class MovieCreationTest {
@@ -55,11 +55,28 @@ public class MovieCreationTest {
 
         //Perform click on spinner selcetion
         onData(allOf(instanceOf(GenreInfo.class),equalTo(genre))).perform(click());
+        //Check Genre title corresponds to given one we are testing 'genre' variable
+        onView(withId(R.id.spinner_genre)).check(matches(withSpinnerText(
+                containsString(genre.getTitle())))); //Making sure what is displayed is the genre title
 
-        onView(withId(R.id.editText_movie)).perform(typeText(movieTitle));
+        onView(withId(R.id.editText_movie)).perform(typeText(movieTitle)).
+                                //Not necessary to add .check() because typeText can be relied on
+                check(matches(withText(containsString(movieTitle)))); //Can add check method to make use of the initalview we are interested in
         onView(withId(R.id.editText_description)).perform(typeText(movieText),
                 closeSoftKeyboard());
 
+        //Checking if the text contained matches
+        onView(withId(R.id.editText_description)).check(matches(withText(containsString(movieText)))); //Not necessary to add .check() because typeText can be relied on
+
         pressBack(); //to go back to the previous activity
+
+
+        //Testing movie creation logic working properly
+        int index = sDataManager.getMovies().size() -1; //getting the last index
+        MovieInfo movie = sDataManager.getMovies().get(index);
+        assertEquals(genre,movie.getGenre());
+        assertEquals(movieTitle,movie.getTitle());
+        assertEquals(movieText,movie.getText());
+
     }
 }
