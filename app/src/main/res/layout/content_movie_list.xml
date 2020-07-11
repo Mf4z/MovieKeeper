@@ -8,7 +8,7 @@
     tools:context=".MovieListActivity"
     tools:showIn="@layout/activity_movie_list">
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/list_movies"
         android:layout_width="0dp"
         android:layout_height="0dp"

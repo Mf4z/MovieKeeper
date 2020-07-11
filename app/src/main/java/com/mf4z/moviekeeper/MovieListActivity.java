@@ -7,6 +7,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,7 +19,7 @@ import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
 
-    private ArrayAdapter<MovieInfo> mAdapterMovies;
+//    private ArrayAdapter<MovieInfo> mAdapterMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,39 +45,44 @@ public class MovieListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mAdapterMovies.notifyDataSetChanged(); //Notifies the adapter of new data added to accommodate it
+//        mAdapterMovies.notifyDataSetChanged(); //Notifies the adapter of new data added to accommodate it
     }
 
     private void initializeDisplayContent() {
 
 
-        final ListView listMovies = (ListView) findViewById(R.id.list_movies);    //Marked as final so it can be referenced in setOnItemClickListener
+//        final ListView listMovies = (ListView) findViewById(R.id.list_movies);    //Marked as final so it can be referenced in setOnItemClickListener
+//
+//        //List of Movies
+//        List<MovieInfo> movies = DataManager.getInstance().getMovies();
+//
+//        //Adapter to load and handle Movies for ListView
+//        mAdapterMovies = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,movies);
+//
+//        //Set adapter to ListView
+//        listMovies.setAdapter(mAdapterMovies);
+//
+//
+//        //Set a click even to the ListView item
+//        listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//
+//                Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
+//
+////                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
+//
+//                //Use intent extra to pass data to MainActivity
+//                intent.putExtra(MainActivity.MOVIE_POSITION,position);
+//                startActivity(intent);
+//
+//            }
+//        } );
 
-        //List of Movies
-        List<MovieInfo> movies = DataManager.getInstance().getMovies();
 
-        //Adapter to load and handle Movies for ListView
-        mAdapterMovies = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,movies);
-
-        //Set adapter to ListView
-        listMovies.setAdapter(mAdapterMovies);
-
-
-        //Set a click even to the ListView item
-        listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
-
-//                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
-
-                //Use intent extra to pass data to MainActivity
-                intent.putExtra(MainActivity.MOVIE_POSITION,position);
-                startActivity(intent);
-
-            }
-        } );
+        final RecyclerView recyclerMovies = (RecyclerView) findViewById(R.id.list_movies);
+        final LinearLayoutManager movieLayoutManager = new LinearLayoutManager(this); //Instantiate new LinearLayout Manager to manage recycler view
+        recyclerMovies.setLayoutManager(movieLayoutManager); //set Layout manager to recyler view
     }
 
 }
