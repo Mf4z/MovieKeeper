@@ -18,6 +18,7 @@ import android.widget.ListView;
 import java.util.List;
 
 public class MovieListActivity extends AppCompatActivity {
+    private MovieRecyclerAdapter mMovieRecyclerAdapter;
 
 //    private ArrayAdapter<MovieInfo> mAdapterMovies;
 
@@ -46,6 +47,8 @@ public class MovieListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 //        mAdapterMovies.notifyDataSetChanged(); //Notifies the adapter of new data added to accommodate it
+        mMovieRecyclerAdapter.notifyDataSetChanged();
+
     }
 
     private void initializeDisplayContent() {
@@ -88,10 +91,10 @@ public class MovieListActivity extends AppCompatActivity {
         List<MovieInfo> movies = DataManager.getInstance().getMovies();
 
         //Create movies recycler adapter
-        final MovieRecyclerAdapter movieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
+        mMovieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
 
         //set adapter to recylcer view
-        recyclerMovies.setAdapter(movieRecyclerAdapter);
+        recyclerMovies.setAdapter(mMovieRecyclerAdapter);
     }
 
 }

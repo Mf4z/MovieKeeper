@@ -1,6 +1,7 @@
 package com.mf4z.moviekeeper;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
         MovieInfo movie = mMovies.get(position);
         holder.mTextGenre.setText(movie.getGenre().getTitle());
         holder.mTextTitle.setText(movie.getTitle());
+        holder.mCurrentPosition = position;  //Holds current item position
     }
 
     @Override
@@ -50,12 +52,25 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
 
         public final TextView mTextGenre;
         public final TextView mTextTitle;
+        public int mCurrentPosition;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             mTextGenre = itemView.findViewById(R.id.text_course);
             mTextTitle = itemView.findViewById(R.id.text_title);
+
+            //Adding click event to item view
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext,MainActivity.class);
+                    intent.putExtra(MainActivity.MOVIE_POSITION,mCurrentPosition);
+                    mContext.startActivity(intent);
+
+
+                }
+            });
         }
     }
 }

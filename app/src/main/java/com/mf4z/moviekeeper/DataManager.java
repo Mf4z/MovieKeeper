@@ -31,8 +31,8 @@ public class DataManager {
     }
 
     public int createNewMovie() {
-        MovieInfo note = new MovieInfo(null, null, null);
-        mMovies.add(note);
+        MovieInfo movie = new MovieInfo(null, null, null);
+        mMovies.add(movie);
         return mMovies.size() - 1;
     }
 
