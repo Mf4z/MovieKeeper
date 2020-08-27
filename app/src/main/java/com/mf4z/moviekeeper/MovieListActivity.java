@@ -83,6 +83,15 @@ public class MovieListActivity extends AppCompatActivity {
         final RecyclerView recyclerMovies = (RecyclerView) findViewById(R.id.list_movies);
         final LinearLayoutManager movieLayoutManager = new LinearLayoutManager(this); //Instantiate new LinearLayout Manager to manage recycler view
         recyclerMovies.setLayoutManager(movieLayoutManager); //set Layout manager to recyler view
+
+        //Get movies to display within the recycler view
+        List<MovieInfo> movies = DataManager.getInstance().getMovies();
+
+        //Create movies recycler adapter
+        final MovieRecyclerAdapter movieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
+
+        //set adapter to recylcer view
+        recyclerMovies.setAdapter(movieRecyclerAdapter);
     }
 
 }
