@@ -111,9 +111,25 @@ public class MainActivity extends AppCompatActivity {
                 mIsCancelling = true; //Check if user wants to cancel
                 finish(); //Used when a user wants to end an activity and return to previous activity
                 return true;
+
+            case R.id.action_next:
+                moveNext();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+        //Method to move to next note
+    private void moveNext() {
+        saveMovies();
+
+        ++mMoviePosition;
+        mMovie = DataManager.getInstance().getMovies().get(mMoviePosition);
+
+        saveOriginalMovieValues();
+
+        displayMovies(mSpinnerGenre,mTextMovieTitle,mTextMovieDesc);
     }
 
     @Override
