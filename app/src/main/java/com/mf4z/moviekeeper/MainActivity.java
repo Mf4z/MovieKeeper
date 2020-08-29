@@ -120,7 +120,18 @@ public class MainActivity extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
-        //Method to move to next note
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) { //Override and add action to affect menu (controlled by the system)
+        MenuItem item = menu.findItem(R.id.action_next);
+        int lastMovieIndex = DataManager.getInstance().getMovies().size() - 1; //Last movie index
+        item.setEnabled(mMoviePosition < lastMovieIndex);
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+
+    //Method to move to next note
     private void moveNext() {
         saveMovies();
 
@@ -130,6 +141,8 @@ public class MainActivity extends AppCompatActivity {
         saveOriginalMovieValues();
 
         displayMovies(mSpinnerGenre,mTextMovieTitle,mTextMovieDesc);
+
+        invalidateOptionsMenu(); //Calls ononPrepareOptionsMenu and runs the code in it (controlled by the app)
     }
 
     @Override
