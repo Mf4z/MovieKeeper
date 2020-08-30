@@ -43,42 +43,11 @@ public class MovieListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        mAdapterMovies.notifyDataSetChanged(); //Notifies the adapter of new data added to accommodate it
         mMovieRecyclerAdapter.notifyDataSetChanged();
 
     }
 
     private void initializeDisplayContent() {
-
-
-//        final ListView listMovies = (ListView) findViewById(R.id.list_movies);    //Marked as final so it can be referenced in setOnItemClickListener
-//
-//        //List of Movies
-//        List<MovieInfo> movies = DataManager.getInstance().getMovies();
-//
-//        //Adapter to load and handle Movies for ListView
-//        mAdapterMovies = new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,movies);
-//
-//        //Set adapter to ListView
-//        listMovies.setAdapter(mAdapterMovies);
-//
-//
-//        //Set a click even to the ListView item
-//        listMovies.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//
-//                Intent intent = new Intent(MovieListActivity.this,MovieActivity.class);
-//
-////                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
-//
-//                //Use intent extra to pass data to MovieActivity
-//                intent.putExtra(MovieActivity.MOVIE_POSITION,position);
-//                startActivity(intent);
-//
-//            }
-//        } );
-
 
         final RecyclerView recyclerMovies = (RecyclerView) findViewById(R.id.list_movies);
         final LinearLayoutManager movieLayoutManager = new LinearLayoutManager(this); //Instantiate new LinearLayout Manager to manage recycler view

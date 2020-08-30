@@ -1,5 +1,6 @@
 package com.mf4z.moviekeeper;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -18,12 +19,18 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private MovieRecyclerAdapter mMovieRecyclerAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +42,7 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(MainActivity.this, MovieActivity.class)); //Intent to MovieActivity
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -51,7 +57,34 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        initializeDisplayContent(); //Displays movies
     }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mMovieRecyclerAdapter.notifyDataSetChanged();
+
+    }
+
+    private void initializeDisplayContent() {
+
+        final RecyclerView recyclerMovies = (RecyclerView) findViewById(R.id.list_items);
+        final LinearLayoutManager movieLayoutManager = new LinearLayoutManager(this); //Instantiate new LinearLayout Manager to manage recycler view
+        recyclerMovies.setLayoutManager(movieLayoutManager); //set Layout manager to recyler view
+
+        //Get movies to display within the recycler view
+        List<MovieInfo> movies = DataManager.getInstance().getMovies();
+
+        //Create movies recycler adapter
+        mMovieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
+
+        //set adapter to recylcer view
+        recyclerMovies.setAdapter(mMovieRecyclerAdapter);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
