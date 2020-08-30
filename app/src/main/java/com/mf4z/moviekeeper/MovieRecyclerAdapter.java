@@ -64,8 +64,8 @@ public class MovieRecyclerAdapter extends RecyclerView.Adapter<MovieRecyclerAdap
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext,MainActivity.class);
-                    intent.putExtra(MainActivity.MOVIE_POSITION,mCurrentPosition);
+                    Intent intent = new Intent(mContext, MovieActivity.class);
+                    intent.putExtra(MovieActivity.MOVIE_POSITION,mCurrentPosition);
                     mContext.startActivity(intent);
 
 

@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
 import java.util.List;
 
@@ -33,7 +30,7 @@ public class MovieListActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MovieListActivity.this,MainActivity.class)); //Intent to MainActivity
+                startActivity(new Intent(MovieListActivity.this, MovieActivity.class)); //Intent to MovieActivity
             }
         });
 
@@ -71,12 +68,12 @@ public class MovieListActivity extends AppCompatActivity {
 //            @Override
 //            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 //
-//                Intent intent = new Intent(MovieListActivity.this,MainActivity.class);
+//                Intent intent = new Intent(MovieListActivity.this,MovieActivity.class);
 //
 ////                MovieInfo movie = (MovieInfo) listMovies.getItemAtPosition(position);  //Movie that corresponds to the clicked one
 //
-//                //Use intent extra to pass data to MainActivity
-//                intent.putExtra(MainActivity.MOVIE_POSITION,position);
+//                //Use intent extra to pass data to MovieActivity
+//                intent.putExtra(MovieActivity.MOVIE_POSITION,position);
 //                startActivity(intent);
 //
 //            }
