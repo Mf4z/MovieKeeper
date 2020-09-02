@@ -22,11 +22,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.Menu;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -36,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private MovieRecyclerAdapter mMovieRecyclerAdapter;
     private RecyclerView mRecyclerItems;
     private LinearLayoutManager mMovieLayoutManager;
+    private GridLayoutManager mGenresLayoutManager;
+    private GenreRecyclerAdapter mGenreRecyclerAdapter;
 
 
     @Override
@@ -73,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     case R.id.nav_genres :
-                        handleSelection("Genres");
+                        displayGenres();
                         break;
 
                     case R.id.nav_share :
@@ -114,11 +116,20 @@ public class MainActivity extends AppCompatActivity {
         //Instantiate new LinearLayout Manager to manage recycler view
         mMovieLayoutManager = new LinearLayoutManager(this);
 
+        mGenresLayoutManager = (GridLayoutManager) new GridLayoutManager(this,2);
+
         //Get movies to display within the recycler view
         List<MovieInfo> movies = DataManager.getInstance().getMovies();
 
         //Create movies recycler adapter
         mMovieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
+
+
+        //Get genres to display within the recycler view
+        List<GenreInfo> genres = DataManager.getInstance().getGenres();
+
+        //Create genres recycler adapter
+        mGenreRecyclerAdapter = new GenreRecyclerAdapter(this,genres);
 
         //set adapter to recylcer view
         displayMovies();
@@ -128,11 +139,21 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerItems.setLayoutManager(mMovieLayoutManager); //set Layout manager to recyler view
         mRecyclerItems.setAdapter(mMovieRecyclerAdapter);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        Menu menu = navigationView.getMenu();
-        menu.findItem(R.id.nav_movies).setChecked(true);
+        selectNavigationMenuItem(R.id.nav_movies);
     }
 
+    private void selectNavigationMenuItem(int id) {
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(id).setChecked(true);
+    }
+
+    private void displayGenres(){
+        mRecyclerItems.setLayoutManager(mGenresLayoutManager);
+        mRecyclerItems.setAdapter(mGenreRecyclerAdapter);
+
+        selectNavigationMenuItem(R.id.nav_genres);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
