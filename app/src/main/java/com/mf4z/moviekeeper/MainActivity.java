@@ -34,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MovieRecyclerAdapter mMovieRecyclerAdapter;
+    private RecyclerView mRecyclerItems;
+    private LinearLayoutManager mMovieLayoutManager;
 
 
     @Override
@@ -67,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()){
                     case R.id.nav_movies :
-                        handleSelection("Movies");
+                        displayMovies();
                         break;
 
                     case R.id.nav_genres :
@@ -108,9 +110,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void initializeDisplayContent() {
 
-        final RecyclerView recyclerMovies = (RecyclerView) findViewById(R.id.list_items);
-        final LinearLayoutManager movieLayoutManager = new LinearLayoutManager(this); //Instantiate new LinearLayout Manager to manage recycler view
-        recyclerMovies.setLayoutManager(movieLayoutManager); //set Layout manager to recyler view
+        mRecyclerItems = (RecyclerView) findViewById(R.id.list_items);
+        //Instantiate new LinearLayout Manager to manage recycler view
+        mMovieLayoutManager = new LinearLayoutManager(this);
 
         //Get movies to display within the recycler view
         List<MovieInfo> movies = DataManager.getInstance().getMovies();
@@ -119,7 +121,16 @@ public class MainActivity extends AppCompatActivity {
         mMovieRecyclerAdapter = new MovieRecyclerAdapter(this,movies);
 
         //set adapter to recylcer view
-        recyclerMovies.setAdapter(mMovieRecyclerAdapter);
+        displayMovies();
+    }
+
+    private void displayMovies() {
+        mRecyclerItems.setLayoutManager(mMovieLayoutManager); //set Layout manager to recyler view
+        mRecyclerItems.setAdapter(mMovieRecyclerAdapter);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu menu = navigationView.getMenu();
+        menu.findItem(R.id.nav_movies).setChecked(true);
     }
 
 
